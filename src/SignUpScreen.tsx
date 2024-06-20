@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 //naviagtion
 import{ NativeStackScreenProps} from "@react-navigation/native-stack"
@@ -18,13 +18,52 @@ import {
 
   type SignUpProps = NativeStackScreenProps<RootsStackParamList,'SignUp'>
   function SignUp({navigation}:SignUpProps){
-    const[form,setform] = React.useState({
-        username:'',
-        email:'',
-        password:'',
-        
+    const [email, setemail] = useState('')
+    const [wrongemail, setwrongemail] = useState('')
+    const [password, setpassword] = useState('')
+    const [wrongpassword, setwrongpassword] = useState('')
     
-      });
+      const validate = () => {
+        
+        let validEmail = true;
+        let validpassword = true;
+       
+
+        
+        //Email
+        if(email == ''){
+            validEmail = false
+            setwrongemail("Please Enter Valid Email")
+        }else if(email !='' && !email.toString().match(/^[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/)){
+            validEmail = false
+            setwrongemail("Please Enter Valid Email")
+
+        }else if(email !='' && email.toString().match(/^[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/)){
+            validEmail = true
+            setwrongemail("")
+
+        }
+       
+        //Password
+        if(password == ''){
+            validpassword = false
+            setwrongpassword("Enter vali    d password")
+        }else if(password != '' && !password.toString().match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)){
+            validpassword = false
+            setwrongpassword("Minimum eight characters, at least one letter, one number and one special character")
+        }else if(password != '' && password.toString().match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)){
+            validpassword = true
+            setwrongpassword("")
+        }
+       
+
+        return validEmail && validpassword
+
+        
+
+
+
+    }
       return(
         <SafeAreaView style={{flex:1,backgroundColor:'#e8ecf4'}}>
         <View style={styles.container}>
@@ -41,39 +80,39 @@ import {
         
         <View style={styles.form}>
         
-          <View style={styles.input}>
-            <Text style= { styles.inputlabel}>User Name</Text>
-            <TextInput
-            value={form.username}
-            onChangeText={username => setform({...form, username})}
-            placeholder="username"
-            placeholderTextColor="#6b7280"/>
-            
-  
-          </View>
-          <View style={styles.input}>
-            <Text style= { styles.inputlabel}>Email</Text>
-            <TextInput
-            autoCapitalize='none'
-            autoCorrect={false}
-            keyboardType="email-address"          
-            value={form.email}
-            onChangeText={email => setform({...form, email})}
-            placeholder="Last Name"
-            placeholderTextColor="#6b7280"/>
-  
-          </View>
-          <View style={styles.input}>
-          <Text style= { styles.inputlabel}>Password</Text>
-          <TextInput
-          secureTextEntry
-          value={form.password}
-          onChangeText={password => setform({...form, password})}
-          placeholder="**********"
-          placeholderTextColor="#6b7280"/>
-          </View>
+        <View style={styles.input}>
+                            <Text style={styles.inputlabel}>Email</Text>
+                            <TextInput
+                            style ={styles.TextInput}
+                                autoCapitalize='none'
+                                autoCorrect={false}
+                                keyboardType="email-address"
+                                value={email}
+                                onChangeText={email => { setemail(email) }}
+                                placeholder="Email"
+                                placeholderTextColor="#6b7280" />
+
+                        </View>
+                        {wrongemail != '' && <Text style={styles.errorMsg}>{wrongemail}</Text>}
+                        <View style={styles.input}>
+                            <Text style={styles.inputlabel}>Password</Text>
+                            <TextInput
+                            style ={styles.TextInput}
+                                secureTextEntry
+                                value={password}
+                                onChangeText={password => { setpassword(password) }}
+                                placeholder="Password"
+                                placeholderTextColor="#6b7280" />
+
+                        </View>
+                        {wrongpassword != '' && <Text style={styles.errorMsg}>{wrongpassword}</Text>}
+          
           <View style={styles.formAction}>
-              <TouchableOpacity onPress={() => navigation.navigate('Successful')}>
+              <TouchableOpacity onPress={() =>{ if(validate()){
+                navigation.navigate('Successful')
+
+              }
+                }}>
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>
                     Sign Up
@@ -101,6 +140,16 @@ import {
       
   }
   const styles = StyleSheet.create({
+    errorMsg: {
+      fontSize:10,
+      color: '#FF0000'
+  
+      },
+      TextInput:{
+          borderWidth:1,
+          
+          borderColor:'#000000',
+      },
     btnText:{
       fontSize:18,
       fontWeight:'600',
