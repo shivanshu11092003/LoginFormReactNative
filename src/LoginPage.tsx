@@ -1,239 +1,345 @@
-import React from 'react';
+import React, { useState } from 'react';
+import DatePicker from 'react-native-modern-datepicker';
+
 
 import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  useColorScheme,
-  View,
+    Image,
+    SafeAreaView,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    useColorScheme,
+    View,
+    Modal
 } from 'react-native';
 
 //naviagtion
-import{ NativeStackScreenProps} from "@react-navigation/native-stack"
-import{RootsStackParamList} from '../src/App'
+import { NativeStackScreenProps } from "@react-navigation/native-stack"
+import { RootsStackParamList } from '../src/App'
 
-type LoginProps = NativeStackScreenProps<RootsStackParamList,'LoginPage'>
+type LoginProps = NativeStackScreenProps<RootsStackParamList, 'LoginPage'>
 
 
 
-function LoginPage({navigation}:LoginProps){
-    const[form,setform] = React.useState({
-        username:'',
-        firstname:'',
-        lastname:'',
-        email:'',
-        Address:'',
-        dob:'',
-        password:'',
-        confirmpassword:''
-    
-      });
-      
-    
-      return(
-        <SafeAreaView style={{flex:1,backgroundColor:'#e8ecf4'}}>
-          <View style={styles.container}>
-          <View style={styles.header}>
-            <Image
-            source={{uri:'https://i.pinimg.com/564x/de/59/4e/de594ec09881da3fa66d98384a3c72ff.jpg'}}
-            style={styles.headerImg}
-            alt='Logo'
-            
-            />
-            
-            <Text style={styles.title}>Sign In </Text>
-            </View>
-          
-          <View style={styles.form}>
-          <ScrollView>
-            <View style={styles.input}>
-              <Text style= { styles.inputlabel}>User Name</Text>
-              <TextInput
-              value={form.username}
-              onChangeText={username => setform({...form, username})}
-              placeholder="username"
-              placeholderTextColor="#6b7280"/>
-              
-    
-            </View>
-            
-            <View style={styles.input}>
-              <Text style= { styles.inputlabel}>First Name</Text>
-              <TextInput
-              value={form.firstname}
-              onChangeText={firstname => setform({...form, firstname})}
-              placeholder="First Name"
-              placeholderTextColor="#6b7280"/>
-    
-            </View>
-            <View style={styles.input}>
-              <Text style= {styles.inputlabel}>Last Name</Text>
-              <TextInput
-              value={form.lastname}
-              onChangeText={lastname => setform({...form, lastname})}
-              placeholder="Last Name"
-              placeholderTextColor="#6b7280"/>
-    
-            </View>
-            <View style={styles.input}>
-              <Text style= { styles.inputlabel}>Email</Text>
-              <TextInput
-              autoCapitalize='none'
-              autoCorrect={false}
-              keyboardType="email-address"          
-              value={form.email}
-              onChangeText={email => setform({...form, email})}
-              placeholder="Last Name"
-              placeholderTextColor="#6b7280"/>
-    
-            </View>
-            <View style={styles.input}>
-              <Text style= { styles.inputlabel}>Address</Text>
-              <TextInput
-              value={form.Address}
-              onChangeText={Address => setform({...form, Address})}
-              placeholder="Address"
-              placeholderTextColor="#6b7280"/>
-    
-            </View>
-            <View style={styles.input}>
-              <Text style= { styles.inputlabel}>Dob</Text>
-              <TextInput
-              value={form.Address}
-              onChangeText={Address => setform({...form, Address})}
-              placeholder="Address"
-              placeholderTextColor="#6b7280"/>
-    
-            </View>
-            <View style={styles.input}>
-              <Text style= { styles.inputlabel}>Password</Text>
-              <TextInput
-              secureTextEntry
-              value={form.password}
-              onChangeText={password => setform({...form, password})}
-              placeholder="**********"
-              placeholderTextColor="#6b7280"/>
-    
-            </View>
-            <View style={styles.input}>
-              <Text style= { styles.inputlabel}>Confirm Password</Text>
-              <TextInput
-              secureTextEntry
-              value={form.confirmpassword}
-              onChangeText={confirmpassword => setform({...form, confirmpassword})}
-              placeholder="**********"
-              placeholderTextColor="#6b7280"/>
-    
-            </View>
-            
-           </ScrollView>
-           
-          </View>
-          <View style={styles.formAction}>
-              <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-                <View style={styles.btn}>
-                  <Text style={styles.btnText}>
-                    Sign In
-                  </Text>
+function LoginPage({ navigation }: LoginProps) {
+    const [username, setuserName] = useState('')
+    const [wrongname, setwrongName] = useState('')
+    const [firstname, setfirstName] = useState('')
+    const [wrongfirstname, setwrongfirstName] = useState('')
+    const [lastname, setlastName] = useState('')
+    const [wronglastname, setwronglastName] = useState('')
+    const [email, setemail] = useState('')
+    const [wrongemail, setwrongemail] = useState('')
+    const [Address, setAddress] = useState('')
+    const [wrongAddress, setwrongAddressName] = useState('')
+    const [password, setpassword] = useState('')
+    const [wrongpassword, setwrongpassword] = useState('')
+    const [confirmpassword, setconfirmpassword] = useState('')
+    const [wrongconfirmpassword, setwrongconfirmpassword] = useState('')
+    const [date, setdate] = useState<string>(new Date().toISOString().split('T')[0]);
+    const [selectedDate, setseletedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+
+    const [open, setopen] = useState(false)
+
+    function handleOnPress() {
+        setopen(!open);
+
+    }
+    function handlechange(selectedDate: string) {
+        setdate(selectedDate)
+    }
+
+
+
+
+
+
+    return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Image
+                        source={{ uri: 'https://i.pinimg.com/564x/de/59/4e/de594ec09881da3fa66d98384a3c72ff.jpg' }}
+                        style={styles.headerImg}
+                        alt='Logo'
+
+                    />
+
+                    <Text style={styles.title}>Sign In </Text>
                 </View>
-    
-              </TouchableOpacity>
-    
-    
+
+                <View style={styles.form}>
+                    <ScrollView>
+                        <View style={styles.input}>
+                            <Text style={styles.inputlabel}>User Name</Text>
+                            <TextInput
+                                value={username}
+                                onChangeText={username => { setfirstName(username) }}
+                                placeholder="username"
+                                placeholderTextColor="#6b7280" />
+                        </View>
+                        { }
+
+                        <View style={styles.input}>
+                            <Text style={styles.inputlabel}>First Name</Text>
+                            <TextInput
+                                value={firstname}
+                                onChangeText={firstname => { setfirstName(firstname) }}
+                                placeholder="First Name"
+                                placeholderTextColor="#6b7280" />
+
+                        </View>
+                        <View style={styles.input}>
+                            <Text style={styles.inputlabel}>Last Name</Text>
+                            <TextInput
+                                value={lastname}
+                                onChangeText={lastname => { setlastName(lastname) }}
+                                placeholder="Last Name"
+                                placeholderTextColor="#6b7280" />
+
+                        </View>
+                        <View style={styles.input}>
+                            <Text style={styles.inputlabel}>Email</Text>
+                            <TextInput
+                                autoCapitalize='none'
+                                autoCorrect={false}
+                                keyboardType="email-address"
+                                value={email}
+                                onChangeText={email => { setemail(email) }}
+                                placeholder="Last Name"
+                                placeholderTextColor="#6b7280" />
+
+                        </View>
+                        <View style={styles.input}>
+                            <Text style={styles.inputlabel}>Address</Text>
+                            <TextInput
+                                value={Address}
+                                onChangeText={Address => { setAddress(Address) }}
+                                placeholder="Address"
+                                placeholderTextColor="#6b7280" />
+
+                        </View>
+                        <View style={styles.input}>
+                            <Text style={styles.inputlabel}>Dob</Text>
+                            <View style={styles.calendarcontainer}>
+                            <Text style={styles.selectedDate}>{selectedDate}</Text>
+
+<TouchableOpacity onPress={handleOnPress}>
+    <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/512/55/55281.png' }}
+        style={styles.calendarImg}
+        alt='Logo' />
+
+</TouchableOpacity>
+
+                            </View>
+                            
+                            
+                            <Modal animationType='slide'
+                                transparent={true}
+                                visible={open}
+                            >
+                                <View style={styles.containerView}>
+                                    <View style={styles.modalView}>
+                                        <DatePicker
+                                            mode='calendar'
+                                            selected = {date}
+                                            onDateChanged = {handlechange}
+                                            onSelectedChange={(selectedDate) => setseletedDate(selectedDate)}
+                                        
+                                        />
+                                        <TouchableOpacity onPress={handleOnPress}>
+                                            <Text>Close</Text>
+
+                                        </TouchableOpacity>
+
+
+                                    </View>
+                                </View>
+
+                            </Modal>
+                        </View>
+                        <View style={styles.input}>
+                            <Text style={styles.inputlabel}>Password</Text>
+                            <TextInput
+                                secureTextEntry
+                                value={password}
+                                onChangeText={password => { setpassword(password) }}
+                                placeholder="**********"
+                                placeholderTextColor="#6b7280" />
+
+                        </View>
+                        <View style={styles.input}>
+                            <Text style={styles.inputlabel}>Confirm Password</Text>
+                            <TextInput
+                                secureTextEntry
+                                value={confirmpassword}
+                                onChangeText={confirmpassword => { setconfirmpassword(confirmpassword) }}
+                                placeholder="**********"
+                                placeholderTextColor="#6b7280" />
+
+                        </View>
+
+                    </ScrollView>
+
+                </View>
+                <View style={styles.formAction}>
+                    <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+                        <View style={styles.btn}>
+                            <Text style={styles.btnText}>
+                                Sign In
+                            </Text>
+                        </View>
+
+                    </TouchableOpacity>
+
+
+                </View>
             </View>
-        </View>
-      </SafeAreaView>
-      );
+        </SafeAreaView>
+    );
 }
 const styles = StyleSheet.create({
-    btnText:{
-      fontSize:18,
-      fontWeight:'600',
-      color:'#fff'
-  
-  
+    selectedDate: {
+        fontSize: 15,
+        color: '#000',
+        marginTop: 7,
     },
-    btn:{
-      backgroundColor: '#075eec',
-      borderRadius:8,
-      borderWidth:1,
-      borderColor:'#07eec',
-      flexDirection:'row',
-      alignItems:'center',
-      justifyContent:'center',
-      paddingVertical:10,
-      paddingHorizontal:20
-  
+    containerView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22
+
     },
-    formAction:{
-      marginBottom:30,
-      marginVertical:24
-  
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        width: '90%',
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+
+
     },
-    container:{
-      flex: 1,
-      backgroundColor: '#fff',
-      padding:24,
-      
-  
+    btnText: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#fff'
+
+
     },
-    header:{
-      alignItems: 'center',
-      marginVertical:30
+    btn: {
+        backgroundColor: '#075eec',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#07eec',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 20
+
     },
-    headerImg:{
-      width:88,
-      height:80,
-      alignSelf:'center',
-      marginBottom:36,
-      borderRadius: 50,
+    formAction: {
+        marginBottom: 30,
+        marginVertical: 24
+
     },
-    title:{
-      fontSize:27,
-      fontWeight:'700',
-      color:'#000000',
-      marginBottom:6,
-      textAlign:'center'
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        padding: 24,
+
+
+    },
+    calendarcontainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+
+
     },
     
-    input:{
-      marginBottom:20
-  
+
+    header: {
+        alignItems: 'center',
+        marginVertical: 30
     },
-    inputlabel:{
-      fontSize:17,
-      fontWeight:'600',
-      color: '#000000',
-      marginBottom:16
-  
-  
-      
+    headerImg: {
+        width: 88,
+        height: 80,
+        alignSelf: 'center',
+        marginBottom: 36,
+        borderRadius: 50,
     },
-    inputControl:{
-      height:44,
-      backgroundColor:'#fff',
-      paddingVertical:10,
-      paddingHorizontal:16,
-      borderRadius:12,
-      fontSize:15,
-      fontWeight:'500',
-      color:'#222'
+    calendarImg: {
+        width: 40,
+        height: 40,
+        alignItems:'flex-end',
+        marginBottom:0
+
     },
-    form:{
-      width: '100%',
-      marginBottom:24,
-      flex:1
-  
+    title: {
+        fontSize: 27,
+        fontWeight: '700',
+        color: '#000000',
+        marginBottom: 6,
+        textAlign: 'center'
+    },
+
+    input: {
+        marginBottom: 20
+
+    },
+    inputlabel: {
+        fontSize: 17,
+        fontWeight: '600',
+        color: '#000000',
+        marginBottom: 16
+
+
+
+    },
+    calendarlabel: {
+        fontSize: 17,
+        fontWeight: '600',
+        color: '#000000',
+        
+
+
+
+    },
+    inputControl: {
+        height: 44,
+        backgroundColor: '#fff',
+        paddingVertical: 10,
+        paddingHorizontal: 16,
+        borderRadius: 12,
+        fontSize: 15,
+        fontWeight: '500',
+        color: '#222'
+    },
+    form: {
+        width: '100%',
+        marginBottom: 24,
+        flex: 1
+
     }
-  
-    
-      
-  
-  });
+
+
+
+
+});
 
 export default LoginPage;
