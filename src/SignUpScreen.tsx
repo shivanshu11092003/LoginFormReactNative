@@ -1,4 +1,8 @@
 import React from "react";
+
+//naviagtion
+import{ NativeStackScreenProps} from "@react-navigation/native-stack"
+import{RootsStackParamList} from '../src/App'
 import {
     Image,
     SafeAreaView,
@@ -11,7 +15,9 @@ import {
     useColorScheme,
     View,
   } from 'react-native';
-  function SignUp(){
+
+  type SignUpProps = NativeStackScreenProps<RootsStackParamList,'SignUp'>
+  function SignUp({navigation}:SignUpProps){
     const[form,setform] = React.useState({
         username:'',
         email:'',
@@ -66,6 +72,18 @@ import {
           placeholder="**********"
           placeholderTextColor="#6b7280"/>
           </View>
+          <View style={styles.formAction}>
+              <TouchableOpacity onPress={() => navigation.navigate('Successful')}>
+                <View style={styles.btn}>
+                  <Text style={styles.btnText}>
+                    Sign Up
+                  </Text>
+                </View>
+    
+              </TouchableOpacity>
+    
+    
+            </View>
          
           
           
