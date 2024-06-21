@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-native-modern-datepicker';
 import firebase from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 
 import {
@@ -45,6 +46,8 @@ function LoginPage({ navigation }: LoginProps) {
     const [wrongconfirmpassword, setwrongconfirmpassword] = useState('')
     const [date, setdate] = useState<string>(new Date().toISOString().split('T')[0]);
     const [selectedDate, setseletedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+    const [authLogin, setauthLogin] = useState(false)
+    
 
     const [open, setopen] = useState(false)
 
@@ -175,8 +178,22 @@ function LoginPage({ navigation }: LoginProps) {
 
     }
 
+    const firebaseAuth = async() =>{
+        try{ 
+            const isUserLogin = await auth().createUserWithEmailAndPassword(email,password);
+            console.log(isUserLogin)
+            setauthLogin(true)
 
+        }catch(e){
+            setauthLogin(false)
+            console.log(e)
+        }
+    }
+
+    
     const registerUser = () =>{
+        
+        
         firebase().collection("User").add({
             username,
             firstname,
@@ -198,19 +215,7 @@ function LoginPage({ navigation }: LoginProps) {
         }).catch(error =>{
             console.log(error)
         });
-        
-        
-        
-
-    
-
-    };
-
-
-
-
-
-
+}
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
             <View style={styles.container}>
@@ -358,8 +363,15 @@ function LoginPage({ navigation }: LoginProps) {
                 <View style={styles.formAction}>
                     <TouchableOpacity onPress={ () => {
                         if(validate()){
+                            
+                            firebaseAuth()
+                            if(authLogin){
                             registerUser()
                             navigation.navigate("SignUp")
+
+                            }
+                            
+                            
                         }
                     }}>
                         <View style={styles.btn}>
@@ -383,6 +395,7 @@ function LoginPage({ navigation }: LoginProps) {
 }
 const styles = StyleSheet.create({
     AlreadyAccount:{
+        color:'#000000',
         padding:10,
         alignSelf:'center'
 

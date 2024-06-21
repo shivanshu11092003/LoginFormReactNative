@@ -39,7 +39,21 @@ const stack = createNativeStackNavigator<RootsStackParamList>()
 function App() {
   return (
     <NavigationContainer>
-      <stack.Navigator initialRouteName='SplashScreen'>
+      <stack.Navigator initialRouteName='LoginPage'>
+      <stack.Screen
+          name='SignUp'
+          component={SignUp}
+          options={{
+            headerShown: false
+
+          }} />
+      <stack.Screen
+          name='Successful'
+          component={Successful}
+          options={{
+            headerShown: false
+
+          }} />
         <stack.Screen
           name='SplashScreen'
           component={SplashScreen}
@@ -51,20 +65,8 @@ function App() {
             headerShown: false
 
           }} />
-        <stack.Screen
-          name='SignUp'
-          component={SignUp}
-          options={{
-            headerShown: false
-
-          }} />
-        <stack.Screen
-          name='Successful'
-          component={Successful}
-          options={{
-            headerShown: false
-
-          }} />
+        
+        
 
 
 

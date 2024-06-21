@@ -27,7 +27,8 @@ function Successful({route}:SuccessfulProps){
 
                     />
                     
-      <Text>Successful</Text>
+      <Text>Success</Text>
+      <Text style={styles.inputlabel}>User Detaills</Text>
       <Text style={styles.inputlabel} >Username:  {username}</Text>
       <Text style={styles.inputlabel} >Name:  {firstname}{lastname}</Text>
       
@@ -53,7 +54,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '600',
     color: '#000000',
-    marginBottom: 14
+    marginBottom: 14,
+    padding:10
 
 
 
