@@ -16,13 +16,19 @@ import Successful from './Successful';
 import FailedScreen from './FailedScreen';
 import LoginPage from './LoginPage';
 
-export type RootsStackParamList={
+export type RootsStackParamList = {
   LoginPage: undefined;
   SignUp: undefined;
-  Successful:undefined;
-  Failed:undefined;
-  SplashScreen:undefined
-  
+  Successful: { username: String, 
+    firstname: String, 
+    lastname: String, 
+    email: String ,
+  Address:String,
+  Dob:String
+};
+  Failed: undefined;
+  SplashScreen: undefined
+
 }
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -30,45 +36,46 @@ import SplashScreen from './SplashScreen';
 const stack = createNativeStackNavigator<RootsStackParamList>()
 
 
-function App(){
-  return(
+function App() {
+  return (
     <NavigationContainer>
-    <stack.Navigator initialRouteName='SplashScreen'>
-      <stack.Screen 
-      name='SplashScreen' 
-       component={SplashScreen}
-       options={{headerShown:false}}/>
-      <stack.Screen
-       name='LoginPage'
-       component={LoginPage}
-       options={{headerShown:false
-       
-       }}/>
-       <stack.Screen
-       name='SignUp'
-       component={SignUp}
-       options={{
-        headerShown:false
-        
-       }}/>
-       <stack.Screen
-       name='Successful'
-       component={Successful}
-       options={{
-        headerShown:false
-        
-       }}/>
-       
-       
+      <stack.Navigator initialRouteName='SplashScreen'>
+        <stack.Screen
+          name='SplashScreen'
+          component={SplashScreen}
+          options={{ headerShown: false }} />
+        <stack.Screen
+          name='LoginPage'
+          component={LoginPage}
+          options={{
+            headerShown: false
 
-     
-    </stack.Navigator>
-  </NavigationContainer>
+          }} />
+        <stack.Screen
+          name='SignUp'
+          component={SignUp}
+          options={{
+            headerShown: false
+
+          }} />
+        <stack.Screen
+          name='Successful'
+          component={Successful}
+          options={{
+            headerShown: false
+
+          }} />
+
+
+
+
+      </stack.Navigator>
+    </NavigationContainer>
   );
 
-  
-  
-    
+
+
+
 }
 
 export default App;

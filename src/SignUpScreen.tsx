@@ -3,6 +3,7 @@ import React, { useState } from "react";
 //naviagtion
 import{ NativeStackScreenProps} from "@react-navigation/native-stack"
 import{RootsStackParamList} from '../src/App'
+import {firebase}from "@react-native-firebase/firestore"
 import {
     Image,
     SafeAreaView,
@@ -17,6 +18,7 @@ import {
   } from 'react-native';
 
   type SignUpProps = NativeStackScreenProps<RootsStackParamList,'SignUp'>
+  
   function SignUp({navigation}:SignUpProps){
     const [email, setemail] = useState('')
     const [wrongemail, setwrongemail] = useState('')
@@ -64,6 +66,37 @@ import {
 
 
     }
+    const loginUser = () =>{
+      firebase.firestore().collection("User").where("email","==",email).get().then(data =>{
+        console.log(data.docs)
+        
+        if(data.docs.length>0){
+          data.docs.forEach(item =>{
+
+            if(item.data().password==password ){
+              setwrongemail("")
+              setwrongpassword("")
+              console.log(item.data().username)
+              navigation.navigate("Successful",{username:item.data().username.toString(),firstname:item.data().firstname.toString(),lastname:item.data().lastname.toString(),email:item.data().email.toString(),
+                Address:item.data().Address.toString(),Dob:item.data().date.toString()
+              })
+  
+  
+            }else{
+              setwrongpassword("Wrong Password")
+            }
+          })
+          
+        }else{
+          setwrongemail("No Such User")
+        }
+        
+      }
+    
+
+      
+      )
+    }
       return(
         <SafeAreaView style={{flex:1,backgroundColor:'#e8ecf4'}}>
         <View style={styles.container}>
@@ -75,7 +108,7 @@ import {
           
           />
           
-          <Text style={styles.title}>Sign In </Text>
+          <Text style={styles.title}>Login In </Text>
           </View>
         
         <View style={styles.form}>
@@ -109,13 +142,14 @@ import {
           
           <View style={styles.formAction}>
               <TouchableOpacity onPress={() =>{ if(validate()){
-                navigation.navigate('Successful')
+                loginUser()
+                
 
               }
                 }}>
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>
-                    Sign In
+                    Login In
                   </Text>
                 </View>
     

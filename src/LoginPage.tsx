@@ -186,6 +186,14 @@ function LoginPage({ navigation }: LoginProps) {
             date,
             password
         }).then(()=>{
+            setuserName("")
+            setfirstName("")
+            setlastName("")
+            setemail("")
+            setpassword("")
+            setAddress("")
+            setconfirmpassword("")
+            setdate(new Date().toISOString().split('T')[0])
 
         }).catch(error =>{
             console.log(error)
@@ -214,7 +222,7 @@ function LoginPage({ navigation }: LoginProps) {
 
                     />
 
-                    <Text style={styles.title}>Sign Up </Text>
+                    <Text style={styles.title}>Create Your Account </Text>
                 </View>
 
                 <View style={styles.form}>
@@ -356,10 +364,15 @@ function LoginPage({ navigation }: LoginProps) {
                     }}>
                         <View style={styles.btn}>
                             <Text style={styles.btnText}>
-                                Sign In
+                                Create Account
                             </Text>
                         </View>
 
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() =>{
+                        navigation.navigate("SignUp")
+                    }}>
+                        <Text style={styles.AlreadyAccount}>Already Have Account!</Text>
                     </TouchableOpacity>
 
 
@@ -369,6 +382,13 @@ function LoginPage({ navigation }: LoginProps) {
     );
 }
 const styles = StyleSheet.create({
+    AlreadyAccount:{
+        padding:10,
+        alignSelf:'center'
+
+
+    },
+    
     errorMsg: {
     fontSize:10,
     color: '#FF0000'
@@ -429,8 +449,8 @@ const styles = StyleSheet.create({
 
     },
     formAction: {
-        marginBottom: 30,
-        marginVertical: 24
+        marginBottom:0,
+        marginVertical: 2
 
     },
     container: {
