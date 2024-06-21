@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-native-modern-datepicker';
+import firebase from '@react-native-firebase/firestore';
 
 
 import {
@@ -22,6 +23,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootsStackParamList } from '../src/App'
 
 type LoginProps = NativeStackScreenProps<RootsStackParamList, 'LoginPage'>
+
+
 
 
 
@@ -173,6 +176,29 @@ function LoginPage({ navigation }: LoginProps) {
     }
 
 
+    const registerUser = () =>{
+        firebase().collection("User").add({
+            username,
+            firstname,
+            lastname,
+            email,
+            Address,
+            date,
+            password
+        }).then(()=>{
+
+        }).catch(error =>{
+            console.log(error)
+        });
+        
+        
+        
+
+    
+
+    };
+
+
 
 
 
@@ -188,7 +214,7 @@ function LoginPage({ navigation }: LoginProps) {
 
                     />
 
-                    <Text style={styles.title}>Sign In </Text>
+                    <Text style={styles.title}>Sign Up </Text>
                 </View>
 
                 <View style={styles.form}>
@@ -315,13 +341,16 @@ function LoginPage({ navigation }: LoginProps) {
 
                         </View>
                         {wrongconfirmpassword != '' && <Text style={styles.errorMsg}>{wrongconfirmpassword}</Text>}
+                        
 
                     </ScrollView>
+                    
 
                 </View>
                 <View style={styles.formAction}>
                     <TouchableOpacity onPress={ () => {
                         if(validate()){
+                            registerUser()
                             navigation.navigate("SignUp")
                         }
                     }}>

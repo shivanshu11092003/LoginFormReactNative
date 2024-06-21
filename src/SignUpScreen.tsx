@@ -75,7 +75,7 @@ import {
           
           />
           
-          <Text style={styles.title}>Sign Up </Text>
+          <Text style={styles.title}>Sign In </Text>
           </View>
         
         <View style={styles.form}>
@@ -115,7 +115,7 @@ import {
                 }}>
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>
-                    Sign Up
+                    Sign In
                   </Text>
                 </View>
     
